@@ -1,9 +1,9 @@
 locals {
-  project = lower("ds-lab-${var.ds_semester}-${var.user_id}")
+  project = lower("ds-${var.ds_semester}-${var.user_id}")
 }
 
 resource "google_project" "tbd_project" {
-  name            = "Data science ${local.project} project"
+  name            = "Lab ${local.project}"
   project_id      = local.project
   billing_account = var.billing_account
   ## change it to break the checkov during the labs
