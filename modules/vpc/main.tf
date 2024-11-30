@@ -23,6 +23,7 @@ module "vpc" {
   ]
 }
 module "cloud-router" {
+  depends_on = [module.vpc]
   source  = "terraform-google-modules/cloud-router/google"
   version = "~> 6.2.0"
   project = var.project_name
