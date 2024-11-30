@@ -1,5 +1,6 @@
 terraform {
   backend "gcs" {
-    prefix = "mlops"
+    prefix = "project"
+    bucket = var.state_bucket
   }
 }
