@@ -14,11 +14,11 @@ module "vpc" {
   subnet_address = local.main_subnet_address
 }
 
-# module "dataproc" {
-#   depends_on   = [module.vpc]
-#   source       = "./modules/dataproc"
-#   project_name = var.project_name
-#   region       = var.region
-#   subnet       = module.vpc.subnets[local.dataproc_subnet_id].id
-#   machine_type = "e2-standard-2"
-# }
+module "dataproc" {
+  depends_on   = [module.vpc]
+  source       = "./modules/dataproc"
+  project_name = var.project_name
+  region       = var.region
+  subnet       = module.vpc.subnets[local.dataproc_subnet_id].id
+  machine_type = "e2-standard-2"
+}
