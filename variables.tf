@@ -8,8 +8,3 @@ variable "region" {
   default     = "europe-west1"
   description = "GCP region"
 }
-
-variable "state_bucket" {
-    type        = string
-    description = "GCS bucket to store terraform state"
-}
