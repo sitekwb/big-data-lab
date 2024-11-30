@@ -28,7 +28,7 @@ resource "google_project_iam_audit_config" "tbd_project_audit" {
 }
 
 
-resource "google_project_service" "tbd-service" {
+resource "google_project_service" "service" {
   project                    = google_project.tbd_project.project_id
   disable_dependent_services = true
   for_each = toset([
@@ -40,13 +40,13 @@ resource "google_project_service" "tbd-service" {
   service = each.value
 }
 
-resource "google_service_account" "tbd-terraform" {
+resource "google_service_account" "terraform" {
   project    = google_project.tbd_project.project_id
   account_id = "${local.project}-lab"
 }
 
 
-resource "google_project_iam_member" "tbd-editor-supervisors" {
+resource "google_project_iam_member" "editor-supervisors" {
   #checkov:skip=CKV_GCP_49: "Ensure no roles that enable to impersonate and manage all service accounts are used at a project level"
   #checkov:skip=CKV_GCP_117: "Ensure basic roles are not used at project level."
   # This is only used for workshops!!!
@@ -61,18 +61,18 @@ resource "google_project_iam_member" "tbd-editor-supervisors" {
 }
 
 
-resource "google_project_iam_member" "tbd-editor-member" {
+resource "google_project_iam_member" "editor-member" {
   #checkov:skip=CKV_GCP_49: "Ensure no roles that enable to impersonate and manage all service accounts are used at a project level"
   #checkov:skip=CKV_GCP_117: "Ensure basic roles are not used at project level."
   # This is only used for workshops!!!
   project = google_project.tbd_project.project_id
   role    = "roles/owner"
-  member  = "serviceAccount:${google_service_account.tbd-terraform.email}"
+  member  = "serviceAccount:${google_service_account.terraform.email}"
 }
 
 
 
-resource "google_storage_bucket" "tbd-state-bucket" {
+resource "google_storage_bucket" "state-bucket" {
   project                     = google_project.tbd_project.project_id
   name                        = "${local.project}-state"
   location                    = var.region
