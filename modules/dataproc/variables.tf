@@ -27,6 +27,6 @@ variable "image_version" {
 
 variable "idle_delete_ttl" {
   type        = string
-  default     = "360m"
-  description = "Idle delete TTL for the Dataproc cluster"
+  default     = "21600s"
+  description = "Idle delete TTL for the Dataproc cluster (default 6h)"
 }
