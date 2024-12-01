@@ -10,6 +10,17 @@ resource "google_service_account" "default" {
   display_name = "DS Lab Service Account"
 }
 
+resource "google_project_iam_member" "dataproc-service-account" {
+  for_each = toset([
+    "roles/dataproc.admin",
+    "roles/storage.objectAdmin",
+  ])
+  project = var.project_name
+  role    = each.key
+  member  = google_service_account.default.email
+}
+
+
 resource "google_dataproc_cluster" "dataproc-cluster" {
   #checkov:skip=CKV_GCP_91: "Ensure Dataproc cluster is encrypted with Customer Supplied Encryption Keys (CSEK)"
   depends_on = [google_project_service.dataproc]
