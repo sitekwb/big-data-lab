@@ -12,7 +12,7 @@ resource "google_service_account" "default" {
 
 resource "google_project_iam_member" "dataproc-service-account" {
   for_each = toset([
-    "roles/dataproc.admin",
+    "roles/dataproc.worker",
     "roles/storage.objectAdmin",
   ])
   project = var.project_name
