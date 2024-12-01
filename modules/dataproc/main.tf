@@ -4,7 +4,13 @@ resource "google_project_service" "dataproc" {
   service            = "dataproc.googleapis.com"
   disable_on_destroy = true
 }
-resource "google_dataproc_cluster" "tbd-dataproc-cluster" {
+
+resource "google_service_account" "default" {
+  account_id   = "ds-service-account"
+  display_name = "DS Lab Service Account"
+}
+
+resource "google_dataproc_cluster" "dataproc-cluster" {
   #checkov:skip=CKV_GCP_91: "Ensure Dataproc cluster is encrypted with Customer Supplied Encryption Keys (CSEK)"
   depends_on = [google_project_service.dataproc]
   name       = "ds-cluster"
@@ -29,6 +35,10 @@ resource "google_dataproc_cluster" "tbd-dataproc-cluster" {
         "PIP_PACKAGES" = "pandas<2 mlflow==2.18.0 google-cloud-storage==2.18.2"
         "vmDnsSetting" = "GlobalDefault"
       }
+      service_account = google_service_account.default.email
+      service_account_scopes = [
+        "cloud-platform"
+      ]
     }
     initialization_action {
       script      = "gs://goog-dataproc-initialization-actions-${var.region}/python/pip-install.sh"
