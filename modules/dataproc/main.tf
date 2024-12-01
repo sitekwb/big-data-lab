@@ -17,7 +17,7 @@ resource "google_project_iam_member" "dataproc-service-account" {
   ])
   project = var.project_name
   role    = each.key
-  member  = google_service_account.default.email
+  member  = "serviceAccount:${google_service_account.default.email}"
 }
 
 
