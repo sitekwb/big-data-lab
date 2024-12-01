@@ -29,6 +29,7 @@ resource "google_dataproc_cluster" "dataproc-cluster" {
   region     = var.region
 
   cluster_config {
+    optional_components = ["JUPYTER"]
     lifecycle_config {
       idle_delete_ttl = var.idle_delete_ttl
     }
