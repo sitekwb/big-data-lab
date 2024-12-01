@@ -23,7 +23,7 @@ resource "google_project_iam_member" "dataproc-service-account" {
 
 resource "google_dataproc_cluster" "dataproc-cluster" {
   #checkov:skip=CKV_GCP_91: "Ensure Dataproc cluster is encrypted with Customer Supplied Encryption Keys (CSEK)"
-  depends_on = [google_project_service.dataproc]
+  depends_on = [google_project_service.dataproc, google_project_iam_member.dataproc-service-account]
   name       = "ds-cluster"
   project    = var.project_name
   region     = var.region
